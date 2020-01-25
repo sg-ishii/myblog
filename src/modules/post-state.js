@@ -7,6 +7,8 @@ const cookies = new Cookies();
 const ALREADY_READ = 'ALREADY_READ'
 const ADD_FUNC_URL = 'https://api.sg-ishii.page'
 
+axios.reques
+
 const initialState = { reads: [] }
 
 export default function postReducer (state=initialState, action) {
@@ -28,7 +30,10 @@ const addFunc = (slugId) => {
 
     const uuid = cookies.get('uuid') ? cookies.get('uuid') : uuidv4()
 
-    axios.post(ADD_FUNC_URL, {uuid: uuid, slag: slugId})
+    const params = new URLSearchParams()
+    params.append('uuid', uuid)
+    params.append('slag',slugId)
+    axios.post(ADD_FUNC_URL, params)
     .then(res => {
         console.log('success')
     })
