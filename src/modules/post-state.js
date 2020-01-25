@@ -4,10 +4,9 @@ import Cookies from 'universal-cookie';
 import uuidv4 from 'uuid/v4'
 
 const cookies = new Cookies();
-const ALREADY_READ = 'ALREADY_READ'
 const ADD_FUNC_URL = 'https://api.sg-ishii.page'
 
-axios.reques
+const ALREADY_READ = 'ALREADY_READ'
 
 const initialState = { reads: [] }
 
