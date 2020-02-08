@@ -37,6 +37,7 @@ const addFunc = (slugId) => {
     axios.post(ADD_FUNC_URL, params)
     .then(res => {
         console.log('success')
+        cookies.set('uuid', uuid)
     })
     .catch(e => {
         console.log(e)
@@ -45,6 +46,10 @@ const addFunc = (slugId) => {
 }
 
 export const getFunc = async () => {
+
+    console.log(process.env.GATSBY_API_KEY)
+    console.log(process.env.GATSBY_AUTH_DOMAIN)
+    console.log(process.env.GATSBY_PROJECT_ID)
 
     firebase.initializeApp({
       apiKey: process.env.GATSBY_API_KEY,
@@ -55,6 +60,7 @@ export const getFunc = async () => {
     const db = firebase.firestore();
 
     const uuid = cookies.get('uuid') ? cookies.get('uuid') : uuidv4()
+    cookies.set('uuid', uuid)
     const ref = db.collection('reads').doc(uuid).collection('slags')
 
     try {
