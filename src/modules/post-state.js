@@ -47,10 +47,6 @@ const addFunc = (slugId) => {
 
 export const getFunc = async () => {
 
-    console.log(process.env.GATSBY_API_KEY)
-    console.log(process.env.GATSBY_AUTH_DOMAIN)
-    console.log(process.env.GATSBY_PROJECT_ID)
-
     firebase.initializeApp({
       apiKey: process.env.GATSBY_API_KEY,
       authDomain: process.env.GATSBY_AUTH_DOMAIN,
