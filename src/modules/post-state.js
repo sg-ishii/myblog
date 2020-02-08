@@ -2,6 +2,8 @@
 import axios from "axios"
 import Cookies from 'universal-cookie';
 import uuidv4 from 'uuid/v4'
+import firebase from 'firebase/app';
+import 'firebase/firestore';
 
 const cookies = new Cookies();
 const ADD_FUNC_URL = 'https://api.sg-ishii.page'
@@ -40,6 +42,33 @@ const addFunc = (slugId) => {
         console.log(e)
         cookies.set('uuid', uuid)
     })
+}
+
+export const getFunc = async () => {
+
+    firebase.initializeApp({
+      apiKey: process.env.GATSBY_API_KEY,
+      authDomain: process.env.GATSBY_AUTH_DOMAIN,
+      projectId: process.env.GATSBY_PROJECT_ID
+    });
+    
+    const db = firebase.firestore();
+
+    const uuid = cookies.get('uuid') ? cookies.get('uuid') : uuidv4()
+    const ref = db.collection('reads').doc(uuid).collection('slags')
+
+    try {
+        const doc = await ref.get()
+        if (!doc.exists) {
+            console.log('No such document!');
+        } else {
+            console.log('Document data:', doc.data());
+        }
+    } catch (e) {
+        console.log(e)
+    }
+
+    return { reads: [] }
 }
 
 export const already_read = (slugId) => {
