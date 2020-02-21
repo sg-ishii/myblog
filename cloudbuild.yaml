@@ -7,7 +7,7 @@ steps:
     entrypoint: yarn
     args: ["add", "firebase-tools"]
   - name: node:10.15.1
-    args: ["bash -c", "echo $_API_KEY >> .env.production", "echo $_AUTH_DOMAIN >> .env.production", "echo $PROJECT_ID >> .env.production"]
+    args: ["/bin/bash -c", "echo $_API_KEY >> .env.production", "echo $_AUTH_DOMAIN >> .env.production", "echo $PROJECT_ID >> .env.production"]
   - name: node:10.15.1
     entrypoint: yarn
     args: ["build"]
