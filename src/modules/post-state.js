@@ -63,7 +63,7 @@ export const getFunc = async () => {
         const doc = await ref.get()
         if (doc.exists) {
             console.log('Document data:', doc.data());
-            const result = Array.From(Object.keys(doc.data()))
+            const result = Object.keys(doc.data())
             console.log('reads=' + result)
             return { reads: result }
         } else {
