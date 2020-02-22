@@ -60,7 +60,7 @@ export const getFunc = async () => {
     const ref = db.collection('reads')
 
     try {
-        const doc = await ref.doc(uuid).collection("slags").doc("3IxTRAASalMDDNWufCEq").get()
+        const doc = await ref.doc(uuid).collection("slags").listDocuments()
         if (doc.exists) {
             console.log('Document data:', doc.data());
         } else {
