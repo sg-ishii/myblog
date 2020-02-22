@@ -57,7 +57,7 @@ export const getFunc = async () => {
 
     const uuid = cookies.get('uuid') ? cookies.get('uuid') : uuidv4()
     cookies.set('uuid', uuid)
-    const ref = db.collection('reads').doc(uuid)
+    const ref = db.collection('reads').get()
 
     try {
         const doc = await ref.get()
