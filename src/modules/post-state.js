@@ -57,10 +57,10 @@ export const getFunc = async () => {
 
     const uuid = cookies.get('uuid') ? cookies.get('uuid') : uuidv4()
     cookies.set('uuid', uuid)
-    const ref = db.collection('reads')
+    const ref = db.collection('reads/${uuid}/slags')
 
     try {
-        const doc = await ref.doc(uuid).collection("slags").listDocuments()
+        const doc = await ref.listDocuments()
         if (doc.exists) {
             console.log('Document data:', doc.data());
         } else {
