@@ -59,21 +59,23 @@ export const getFunc = async () => {
     cookies.set('uuid', uuid)
     const ref = db.collection('reads').doc(uuid)
 
+    let result;
     try {
         const doc = await ref.get()
         if (doc.exists) {
             console.log('Document data:', doc.data());
             const result = Object.keys(doc.data())
             console.log('reads=' + result)
-            return { reads: result }
         } else {
             console.log('No such document!');
+            result = []
         }
     } catch (e) {
         console.log(e)
+        result = []
     }
 
-    return { reads: [] }
+    return { reads: result }
 }
 
 export const already_read = (slugId) => {
