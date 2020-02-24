@@ -46,32 +46,34 @@ const addFunc = (slugId) => {
 }
 
 export const getFunc = async () => {
-
-    firebase.initializeApp({
-      apiKey: process.env.GATSBY_API_KEY,
-      authDomain: process.env.GATSBY_AUTH_DOMAIN,
-      projectId: process.env.GATSBY_PROJECT_ID
-    });
     
-    const db = firebase.firestore();
-
-    const uuid = cookies.get('uuid') ? cookies.get('uuid') : uuidv4()
-    cookies.set('uuid', uuid)
-    const ref = db.collection('reads').doc(uuid)
-
     let result;
+
     try {
+
+        firebase.initializeApp({
+          apiKey: process.env.GATSBY_API_KEY,
+          authDomain: process.env.GATSBY_AUTH_DOMAIN,
+          projectId: process.env.GATSBY_PROJECT_ID
+        });
+        
+        const db = firebase.firestore();
+    
+        const uuid = cookies.get('uuid') ? cookies.get('uuid') : uuidv4()
+        cookies.set('uuid', uuid)
+        const ref = db.collection('reads').doc(uuid)
+
         const doc = await ref.get()
         if (doc.exists) {
             console.log('Document data:', doc.data());
-            const result = Object.keys(doc.data())
+            result = Object.keys(doc.data())
             console.log('reads=' + result)
         } else {
             console.log('No such document!');
             result = []
         }
     } catch (e) {
-        console.log(e)
+        console.log("cannot access firestore")
         result = []
     }
 
