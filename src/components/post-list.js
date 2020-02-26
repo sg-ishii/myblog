@@ -32,7 +32,7 @@ export default ({ not_read, filted }) => {
     )
     return (
         <div>
-            <select onChange={ (e) => { not_read(e.target.value) } }>
+            <select defaultValue={"NOT_SELECTED"} onChange={ (e) => { not_read(e.target.value) } }>
                 {filted ? (
                     <>
                     <option value="NOT_SELECTED">すべて</option>

@@ -1,18 +1,12 @@
 import React from "react"
 import { Link } from "gatsby"
 import { rhythm } from "../utils/typography"
-import { getFunc } from "../modules/post-state"
 
 export default class Post extends React.Component {
-  constructor(props) {
-    super(props)
-  }
   
   componentDidMount() {
-    getFunc()
-      .then(res => {
-        this.setState({ reads: res })
-      });
+    const { get_init } = this.props
+    get_init()
   }
 
   render() {

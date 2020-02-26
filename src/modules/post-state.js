@@ -9,6 +9,13 @@ const cookies = new Cookies();
 const ADD_FUNC_URL = 'https://api.sg-ishii.page'
 
 const ALREADY_READ = 'ALREADY_READ'
+const COMPLETE_INIT = 'COMPLETE_INIT'
+
+firebase.initializeApp({
+  apiKey: process.env.GATSBY_API_KEY,
+  authDomain: process.env.GATSBY_AUTH_DOMAIN,
+  projectId: process.env.GATSBY_PROJECT_ID
+});
 
 const initialState = { reads: [] }
 
@@ -23,6 +30,12 @@ export default function postReducer (state=initialState, action) {
             }
         }
         return state
+    } else if (action.type === COMPLETE_INIT) {
+        const reads = state.reads.concat(action.reads)
+        return {
+            ...state,
+            reads
+        }
     }
     return state
 }
@@ -50,13 +63,6 @@ export const getFunc = async () => {
     let result;
 
     try {
-
-        firebase.initializeApp({
-          apiKey: process.env.GATSBY_API_KEY,
-          authDomain: process.env.GATSBY_AUTH_DOMAIN,
-          projectId: process.env.GATSBY_PROJECT_ID
-        });
-        
         const db = firebase.firestore();
     
         const uuid = cookies.get('uuid') ? cookies.get('uuid') : uuidv4()
@@ -65,24 +71,30 @@ export const getFunc = async () => {
 
         const doc = await ref.get()
         if (doc.exists) {
-            console.log('Document data:', doc.data());
             result = Object.keys(doc.data())
-            console.log('reads=' + result)
         } else {
             console.log('No such document!');
             result = []
         }
     } catch (e) {
         console.log("cannot access firestore")
+        console.log(e)
         result = []
     }
 
-    return { reads: result }
+    return result
 }
 
 export const already_read = (slugId) => {
     return {
         type: ALREADY_READ,
         slugId: slugId
+    };
+}
+
+export const complete_init = (reads) => {
+    return {
+        type: COMPLETE_INIT,
+        reads: reads
     };
 }
